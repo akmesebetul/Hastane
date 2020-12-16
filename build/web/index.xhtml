@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+    </h:head>
+   <h:body>
+        <div id="warp">   <div id="nheader">  
+
+                <h1> HASTANE OTOMASYON SİSTEMİNE HOŞ GELDİNİZ </h1> 
+                <hr />
+                
+               <h1>INDEX</h1> </div> 
+            <div class="col-5" id="npar"> 
+                <h:form>
+                    <h:commandButton styleClass="btn btn-outline-info" action="/index?faces-redirect=true" value="Index"/>
+                    <h:commandButton styleClass="btn btn-outline-dark" action="/login?faces-redirect=true" value="Login"/>
+                    <h:commandButton styleClass="btn btn-outline-primary" action="/logout?faces-redirect=true" value="Logout"/>
+                    <h:commandButton styleClass="btn btn-outline-dark" action="/register?faces-redirect=true" value="Register"/>
+                    <h:commandButton  styleClass="btn btn-outline-info" action="/secret/secret?faces-redirect=true" value="Secret"/>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+

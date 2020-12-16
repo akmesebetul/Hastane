@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+      <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <h:form>
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <h:commandLink styleClass="nav-link" action="hasta" value="Hasta"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="doktor" value="Doktor"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="randevu" value="Randevu"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="tahliller" value="Tahliller"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="bolum" value="Bolum"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="fatura" value="Fatura"/>
+                            </li>
+                            <li class="nav-item active">
+                                <h:commandLink styleClass="nav-link" action="amaliyat" value="Ameliyat"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="room" value="Room"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="ozel_hizmet" value="Ozel_hizmet"/> 
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="ilac" value="Ilac"/> 
+                            </li>
+                        </ul>
+                    </h:form>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="amaliyat-table">
+                        <pre> page #{amaliyatController.page} of #{amaliyatController.pageCount}</pre>
+                        <div class="btn-group">
+                            <h:commandButton action="#{amaliyatController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                            <h:commandButton action="#{amaliyatController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                        </div>
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{amaliyatController.amaliyatList}" var="amaliyat">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                <h:commandLink action="#{amaliyatController.updateForm(amaliyat)}" value=" #{amaliyat.id_ameliyat}"/>
+                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">ISIM</f:facet>
+                                    #{amaliyat.ameliyat_ismi}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">TARIH</f:facet>
+                                    #{amaliyat.ameliyat_tarihi}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">HASTA</f:facet>
+                                    #{amaliyat.hasta.isim}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">DOKTOR</f:facet>
+                                    #{amaliyat.doktor.isim}
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form>
+                        <div  class="form-group">
+                            <label for="selecthasta"> Hasta </label>
+                            <h:selectOneMenu styleClass="custom-select" id="selecthasta" value="#{amaliyatController.amaliyat.hasta}" converter="hastaconverter">
+                                <f:selectItems value="#{amaliyatController.hastaList}" var="hasta" itemValue="#{hasta}" itemLabel="#{hasta.isim}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div  class="form-group">
+                            <label for="selectdoktor"> Doktor </label>
+                            <h:selectOneMenu styleClass="custom-select" id="selectdoktor" value="#{amaliyatController.amaliyat.doktor}" converter="doktorconverter">
+                                <f:selectItems value="#{amaliyatController.doktorList}" var="doktor" itemValue="#{doktor}" itemLabel="#{doktor.isim}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAmeliyat_ismi"> ISIM </label>
+                            <h:inputText id="inputAmeliyat_ismi" value="#{amaliyatController.amaliyat.ameliyat_ismi}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAmeliyat_tarihi"> TARIH </label>
+                            <h:inputText id="inputAmeliyat_tarihi" value="#{amaliyatController.amaliyat.ameliyat_tarihi}" styleClass="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn-group">
+                            <h:commandButton rendered="#{amaliyatController.amaliyat.id_ameliyat==null}" action="#{amaliyatController.create}" value="Create" styleClass="btn-btn-primary"/>
+                            <h:commandButton  rendered="#{amaliyatController.amaliyat.id_ameliyat!=null}" action="#{amaliyatController.update}" value="Update" styleClass="btn-btn-primary"/>
+                            <h:commandButton  rendered="#{amaliyatController.amaliyat.id_ameliyat!=null}" action="#{amaliyatController.delete}" value="Delete" styleClass="btn-btn-danger"/>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+</html>
+
