@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>
+          <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <h:form>
+                    <ul class="navbar-nav">
+                         <li class="nav-item active">
+                                <h:commandLink styleClass="nav-link" action="hasta" value="Hasta"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="doktor" value="Doktor"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="randevu" value="Randevu"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="tahliller" value="Tahliller"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="bolum" value="Bolum"/>
+                            </li>
+                             <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="fatura" value="Fatura"/>
+                            </li>
+                        <li class="nav-item active">
+                            <h:commandLink styleClass="nav-link" action="amaliyat" value="amaliyat"/>
+                        </li>
+                        <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="room" value="room"/> 
+                        </li>
+                         <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="ozel_hizmet" value="ozel_hizmet"/> 
+                        </li>
+                         <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="ilac" value="ilac"/> 
+                        </li>
+                        
+                    </ul>
+                    </h:form>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="room-table">
+                         <pre>page #{roomController.page} of #{roomController.pageCount}</pre>
+                        <div class="btn-group">
+                            <h:commandButton action="#{roomController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                            <h:commandButton action="#{roomController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                        </div>
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{roomController.roomList}" var="room">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{room.id_oda}
+                        </h:column>
+                         <h:column>
+                            <f:facet name="header">KAT</f:facet>
+                            #{room.kat}
+                        </h:column>
+                         <h:column>
+                            <f:facet name="header">ODA_NUMARASI</f:facet>
+                            #{room.oda_numarasi}
+                        </h:column>
+                            <h:column>
+                            <f:facet name="header">HASTA</f:facet>
+                            #{room.hasta.isim}
+                        </h:column>
+                           
+                    </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                     <h:form>
+                        <div  class="form-group">
+                            <label for="selecthasta"> Hasta </label>
+                            <h:selectOneMenu styleClass="custom-select" id="selectroom" value="#{roomController.room.hasta}" converter="hastaconverter">
+                                <f:selectItems value="#{roomController.hastaList}" var="hasta" itemValue="#{hasta}" itemLabel="#{hasta.isim}"/>
+                            </h:selectOneMenu>
+                        </div>
+                         
+                        <div class="form-group">
+                            <label for="inputKat"> KAT </label>
+                            <h:inputText id="inputKat" value="#{roomController.room.kat}" styleClass="form-control"/>
+                        </div>
+                          <div class="form-group">
+                            <label for="inputoda_numarasi"> oda_numarasi </label>
+                            <h:inputText id="inputOda_numarasi" value="#{roomController.room.oda_numarasi}" styleClass="form-control"/>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <h:commandButton rendered="#{roomController.room.id_oda==null}" action="#{roomController.create}" value="Create" styleClass="btn-btn-primary"/>
+                            <h:commandButton  rendered="#{roomController.room.id_oda!=null}"action="#{roomController.update}" value="Update" styleClass="btn-btn-primary"/>
+                            <h:commandButton  rendered="#{roomController.room.id_oda!=null}"action="#{roomController.delete}" value="Delete" styleClass="btn-btn-danger"/>
+                        </div>
+                    </h:form>
+                        </div>
+                </div>
+            </div>
+    </h:body>
+</html>
+
