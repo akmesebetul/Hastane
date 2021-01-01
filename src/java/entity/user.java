@@ -5,33 +5,36 @@
  */
 package entity;
 
-import java.util.List;
-
 /**
  *
  * @author Casper
  */
-public class user {
+public class User {
 
-    private Long user_id;
-    private String userName;
+    private String id;
+    private String username;
     private String password;
-   
 
-    public Long getUser_id() {
-        return user_id;
+    public User() {
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public User(String id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    @Override
+    public String toString() {
+        return "User{" + "username=" + username + ", password=" + password + '}';
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -42,10 +45,12 @@ public class user {
         this.password = password;
     }
 
-   
-    @Override
-    public String toString() {
-        return "user{" + "user_id=" + user_id + ", userName=" + userName + ", password=" + password +  '}';
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
