@@ -1,0 +1,288 @@
+-- --------------------------------------------------------
+-- Sunucu:                       127.0.0.1
+-- Sunucu sürümü:                10.2.13-MariaDB - mariadb.org binary distribution
+-- Sunucu İşletim Sistemi:       Win64
+-- HeidiSQL Sürüm:               9.4.0.5125
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- hastane için veritabanı yapısı dökülüyor
+CREATE DATABASE IF NOT EXISTS `hastane` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `hastane`;
+
+-- tablo yapısı dökülüyor hastane.ameliyat
+CREATE TABLE IF NOT EXISTS `ameliyat` (
+  `id_ameliyat` int(11) NOT NULL AUTO_INCREMENT,
+  `ameliyat_ismi` varchar(50) NOT NULL DEFAULT '0',
+  `ameliyat_tarihi` date NOT NULL,
+  `id_hasta` int(11) NOT NULL,
+  `id_dok` int(11) NOT NULL,
+  PRIMARY KEY (`id_ameliyat`),
+  KEY `FK_ameliyat_hasta` (`id_hasta`),
+  KEY `FK_ameliyat_doktor` (`id_dok`),
+  CONSTRAINT `FK_ameliyat_doktor` FOREIGN KEY (`id_dok`) REFERENCES `doktor` (`id_dok`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ameliyat_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- hastane.ameliyat: ~4 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `ameliyat` DISABLE KEYS */;
+INSERT INTO `ameliyat` (`id_ameliyat`, `ameliyat_ismi`, `ameliyat_tarihi`, `id_hasta`, `id_dok`) VALUES
+	(1, 'Guatr Ameliyatı', '2020-11-25', 8, 6),
+	(2, 'Timpanoplasti Ameliyatı', '2020-12-10', 5, 5),
+	(3, 'Torokotami Ameliyatı', '2020-11-22', 6, 7),
+	(4, 'Bypass Ameliyatı', '2020-11-27', 7, 8);
+/*!40000 ALTER TABLE `ameliyat` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.bolum
+CREATE TABLE IF NOT EXISTS `bolum` (
+  `id_bolum` int(11) NOT NULL AUTO_INCREMENT,
+  `bolum_ismi` varchar(50) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_bolum`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+
+-- hastane.bolum: ~37 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `bolum` DISABLE KEYS */;
+INSERT INTO `bolum` (`id_bolum`, `bolum_ismi`) VALUES
+	(1, 'Algoloji'),
+	(2, 'Beslenme ve Diyet'),
+	(3, 'Beyin ve Sinir Cerrahisi'),
+	(4, 'Çocuk Alerjisi'),
+	(5, 'Çocuk Cerrahisi'),
+	(6, 'Çocuk Endokrinolojisi'),
+	(7, 'Çocuk Enfeksiyon'),
+	(8, 'Çocuk Göğüs Hastalıkları'),
+	(9, 'Çocuk Hematolojisi'),
+	(10, 'Çocuk Kardiyolojisi'),
+	(11, 'Çocuk Metabolizma'),
+	(12, 'Çocuk Nefrolojisi'),
+	(13, 'Çocuk Nörolojisi'),
+	(14, 'Çocuk Psikiyatrisi'),
+	(15, 'Çocuk Sağlığı ve Hastalıkları '),
+	(16, 'Çocuk Ürolojisi'),
+	(17, 'Dermatoloji'),
+	(18, 'Dahiliye'),
+	(19, 'Endokrinoloji ve Metabolizma'),
+	(20, 'Enfeksiyon Hastalıkları'),
+	(21, 'Fiziksel Tıp ve Rehabilitasyon'),
+	(22, 'Genel Cerrahi'),
+	(23, 'Geriatri'),
+	(24, 'Göğüs Hastalıkları'),
+	(25, 'Hematoloji'),
+	(26, 'Kadın Hastalıkları ve Doğum'),
+	(27, 'Kalp ve Damar Cerrahisi'),
+	(28, 'Kardiyoloji'),
+	(29, 'KBB'),
+	(30, 'Nefroloji'),
+	(31, 'Nöroloji'),
+	(32, 'Ortopedi ve Travmatoloji'),
+	(33, 'Plastik Cerrahi'),
+	(34, 'Psikiyatri'),
+	(35, 'Radrasyon Onkolojisi'),
+	(36, 'Tıbbi Genetik'),
+	(37, 'Üroloji');
+/*!40000 ALTER TABLE `bolum` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.doktor
+CREATE TABLE IF NOT EXISTS `doktor` (
+  `id_dok` int(11) NOT NULL AUTO_INCREMENT,
+  `isim` varchar(50) NOT NULL DEFAULT '0',
+  `t_c` varchar(11) NOT NULL DEFAULT '0',
+  `tel_numarasi` varchar(11) NOT NULL DEFAULT '0',
+  `id_hasta` int(11) NOT NULL,
+  PRIMARY KEY (`id_dok`),
+  KEY `FK_doktor_hasta` (`id_hasta`),
+  CONSTRAINT `FK_doktor_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- hastane.doktor: ~8 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `doktor` DISABLE KEYS */;
+INSERT INTO `doktor` (`id_dok`, `isim`, `t_c`, `tel_numarasi`, `id_hasta`) VALUES
+	(1, 'Prof.Dr.Reyhan Kaya', '96325874132', '02146547899', 1),
+	(2, 'Prof.Dr.Semih Elmas', '14785236789', '02145698736', 2),
+	(3, 'Doç.Dr.Cem Kurt', '52369714785', '02147859634', 3),
+	(4, 'Doç.Dr.Suna Demirel', '47891200468', '02147893004', 4),
+	(5, 'Operatör Dr. Murat Kama', '98634781045', '02146548973', 5),
+	(6, 'Operatör Dr. Salih Uzun', '12457896360', '02145796734', 8),
+	(7, 'Operatör Dr. Erhan Gökberk ', '47853012698', '02145789638', 6),
+	(8, 'Operatör. Dr Onur Şahin', '85967463125', '02148574256', 7);
+/*!40000 ALTER TABLE `doktor` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.fatura
+CREATE TABLE IF NOT EXISTS `fatura` (
+  `id_fatura` int(11) NOT NULL AUTO_INCREMENT,
+  `fatura_tarihi` datetime NOT NULL,
+  `miktar` int(11) NOT NULL DEFAULT 0,
+  `id_hasta` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_fatura`),
+  KEY `FK_fatura_hasta` (`id_hasta`),
+  CONSTRAINT `FK_fatura_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- hastane.fatura: ~4 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `fatura` DISABLE KEYS */;
+INSERT INTO `fatura` (`id_fatura`, `fatura_tarihi`, `miktar`, `id_hasta`) VALUES
+	(1, '2020-11-25 10:23:25', 250, 1),
+	(2, '2020-11-25 13:24:28', 270, 5),
+	(3, '2020-11-25 09:30:05', 280, 6),
+	(4, '2020-11-25 11:40:38', 260, 3);
+/*!40000 ALTER TABLE `fatura` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.hasta
+CREATE TABLE IF NOT EXISTS `hasta` (
+  `id_hasta` int(11) NOT NULL AUTO_INCREMENT,
+  `isim` varchar(50) NOT NULL DEFAULT '0',
+  `t_c` varchar(11) NOT NULL DEFAULT '0',
+  `d_tarihi` date NOT NULL,
+  `tel_numarasi` varchar(11) NOT NULL DEFAULT '0',
+  `id_dok` int(11) NOT NULL,
+  PRIMARY KEY (`id_hasta`),
+  KEY `FK_hasta_doktor` (`id_dok`),
+  CONSTRAINT `FK_hasta_doktor` FOREIGN KEY (`id_dok`) REFERENCES `doktor` (`id_dok`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- hastane.hasta: ~8 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `hasta` DISABLE KEYS */;
+INSERT INTO `hasta` (`id_hasta`, `isim`, `t_c`, `d_tarihi`, `tel_numarasi`, `id_dok`) VALUES
+	(1, 'Nisa Akın', '11111111111', '2015-11-25', '00000000000', 1),
+	(2, 'Ahmet Er', '22222222222', '1965-01-05', '11111111111', 2),
+	(3, 'Sare Yılmaz', '33333333333', '1990-09-01', '44444444444', 3),
+	(4, 'Burhan Oğuz', '88888888888', '1983-06-03', '05302456655', 4),
+	(5, 'Mesut Can', '36698748910', '1993-03-23', '05047896319', 5),
+	(6, 'Orhan Saka', '44578900347', '2003-07-10', '05062136478', 7),
+	(7, 'Melisa Avcı', '78956300425', '2000-10-08', '05347896452', 8),
+	(8, 'Semiha Sedef', '78549034578', '1958-01-01', '05421236968', 6);
+/*!40000 ALTER TABLE `hasta` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.ilac
+CREATE TABLE IF NOT EXISTS `ilac` (
+  `id_ilac` int(11) NOT NULL AUTO_INCREMENT,
+  `ilac_adi` varchar(50) NOT NULL,
+  `id_hasta` int(11) NOT NULL,
+  `id_dok` int(11) NOT NULL,
+  PRIMARY KEY (`id_ilac`),
+  KEY `FK_ilac_hasta` (`id_hasta`),
+  KEY `FK_ilac_doktor` (`id_dok`),
+  CONSTRAINT `FK_ilac_doktor` FOREIGN KEY (`id_dok`) REFERENCES `doktor` (`id_dok`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ilac_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- hastane.ilac: ~8 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `ilac` DISABLE KEYS */;
+INSERT INTO `ilac` (`id_ilac`, `ilac_adi`, `id_hasta`, `id_dok`) VALUES
+	(1, 'Augmentin', 1, 1),
+	(2, 'Parol', 2, 2),
+	(3, 'Klamoks', 3, 3),
+	(4, 'Arveles', 4, 4),
+	(5, 'Rabiza', 5, 5),
+	(6, 'Delix', 8, 6),
+	(7, 'Nidazol', 7, 8),
+	(8, 'Katarin', 6, 7);
+/*!40000 ALTER TABLE `ilac` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.ozel_hizmet
+CREATE TABLE IF NOT EXISTS `ozel_hizmet` (
+  `id_hizmet` int(11) NOT NULL AUTO_INCREMENT,
+  `hizmet_adi` varchar(50) NOT NULL DEFAULT '0',
+  `id_hasta` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_hizmet`),
+  KEY `FK_ozel_hizmet_hasta` (`id_hasta`),
+  CONSTRAINT `FK_ozel_hizmet_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- hastane.ozel_hizmet: ~4 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `ozel_hizmet` DISABLE KEYS */;
+INSERT INTO `ozel_hizmet` (`id_hizmet`, `hizmet_adi`, `id_hasta`) VALUES
+	(1, 'Çocuk Endokrin(Özel Poliklinik)', 1),
+	(2, 'Algoloji(Özel Poliklinik)', 5),
+	(3, 'Fizik Tedavi ve Rehabilitasyon', 6),
+	(4, 'Psikiyatri', 3);
+/*!40000 ALTER TABLE `ozel_hizmet` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.randevu
+CREATE TABLE IF NOT EXISTS `randevu` (
+  `id_r` int(11) NOT NULL AUTO_INCREMENT,
+  `Tarih` date NOT NULL,
+  `id_hasta` int(11) NOT NULL,
+  `id_dok` int(11) NOT NULL,
+  `id_bolum` int(11) NOT NULL,
+  PRIMARY KEY (`id_r`),
+  KEY `FK_randevu_hasta` (`id_hasta`),
+  KEY `FK_randevu_doktor` (`id_dok`),
+  KEY `FK_randevu_bolum` (`id_bolum`),
+  CONSTRAINT `FK_randevu_bolum` FOREIGN KEY (`id_bolum`) REFERENCES `bolum` (`id_bolum`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_randevu_doktor` FOREIGN KEY (`id_dok`) REFERENCES `doktor` (`id_dok`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_randevu_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- hastane.randevu: ~4 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `randevu` DISABLE KEYS */;
+INSERT INTO `randevu` (`id_r`, `Tarih`, `id_hasta`, `id_dok`, `id_bolum`) VALUES
+	(1, '2020-12-01', 4, 4, 18),
+	(2, '2020-12-02', 2, 2, 28),
+	(3, '2020-12-10', 5, 5, 24),
+	(4, '2020-12-12', 3, 3, 34);
+/*!40000 ALTER TABLE `randevu` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.room
+CREATE TABLE IF NOT EXISTS `room` (
+  `id_oda` int(11) NOT NULL AUTO_INCREMENT,
+  `kat` varchar(50) NOT NULL DEFAULT '0',
+  `oda_numarasi` int(11) NOT NULL DEFAULT 0,
+  `id_hasta` int(11) NOT NULL,
+  PRIMARY KEY (`id_oda`),
+  KEY `FK_room_hasta` (`id_hasta`),
+  CONSTRAINT `FK_room_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- hastane.room: ~4 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` (`id_oda`, `kat`, `oda_numarasi`, `id_hasta`) VALUES
+	(1, 'A Blok 5.Kat', 123, 8),
+	(2, 'A Blok 12. Kat', 245, 7),
+	(3, 'A Blok 9.Kat', 130, 6),
+	(4, 'A Blok 7.Kat', 145, 5);
+/*!40000 ALTER TABLE `room` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.tahliller
+CREATE TABLE IF NOT EXISTS `tahliller` (
+  `id_tahlil` int(11) NOT NULL AUTO_INCREMENT,
+  `tipi` varchar(50) NOT NULL DEFAULT '0',
+  `id_hasta` int(11) NOT NULL DEFAULT 0,
+  `id_dok` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_tahlil`),
+  KEY `FK_tahliller_hasta` (`id_hasta`),
+  KEY `FK_tahliller_doktor` (`id_dok`),
+  CONSTRAINT `FK_tahliller_doktor` FOREIGN KEY (`id_dok`) REFERENCES `doktor` (`id_dok`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_tahliller_hasta` FOREIGN KEY (`id_hasta`) REFERENCES `hasta` (`id_hasta`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- hastane.tahliller: ~4 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `tahliller` DISABLE KEYS */;
+INSERT INTO `tahliller` (`id_tahlil`, `tipi`, `id_hasta`, `id_dok`) VALUES
+	(1, 'Tam Kan Sayımı', 1, 1),
+	(2, 'Elisa', 6, 7),
+	(3, 'Biyokimya', 2, 2),
+	(4, 'Hormon', 3, 3);
+/*!40000 ALTER TABLE `tahliller` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor hastane.user
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL DEFAULT '0',
+  `password` varchar(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- hastane.user: ~0 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
